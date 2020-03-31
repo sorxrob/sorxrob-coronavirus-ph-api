@@ -60,7 +60,7 @@ GET /cases-outside-ph
 Getting list of facitilies
 
 ```http
-GET /facitilies
+GET /facilities
 ```
 
 ```json
