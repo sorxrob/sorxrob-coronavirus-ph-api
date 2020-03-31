@@ -14,7 +14,7 @@ const checkpoint = new Checkpoint()
 
 app.use(morgan('dev'))
 app.use(cors())
-app.use(cache('2 hours'))
+app.use(cache('5 hours'))
 
 app.get('/', (_, res) => {
   res.sendFile(path.join(__dirname + '/index.html'))
