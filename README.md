@@ -57,6 +57,26 @@ GET /cases-outside-ph
 ]
 ```
 
+Getting list of facitilies
+
+```http
+GET /facitilies
+```
+
+```json
+[
+  {
+    "facility": "Research Institute for Tropical Medicine",
+    "puis": 24,
+    "confirmed_cases": 9,
+    "region": "NCR",
+    "latitude": 14.4096347,
+    "longitude": 121.0374245
+  },
+  {...}
+]
+```
+
 Getting Laboratory Status of Patients in the Philippines
 
 ```http
