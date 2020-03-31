@@ -26,7 +26,7 @@ app.get('/README.md', (_, res) => {
 
 // Summary of COVID-19 cases in the Philippines
 app.get('/cases', async (req, res) => {
-  const data = await scrape.getRedditCases()
+  const data = await scrape.getCases()
   return res.json(data)
 })
 

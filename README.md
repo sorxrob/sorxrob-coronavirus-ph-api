@@ -138,6 +138,7 @@ All data are programmatically retrieved, re-formatted and stored in the cache fo
 - [Cases from r/Coronavirus_PH spreadsheet](https://www.reddit.com/r/Coronavirus_PH/comments/fehzke/ph_covid19_case_database_is_now_live/)
 - [Wikipedia](https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_the_Philippines)
 - [Metro Manila community quarantine checkpoints](https://safetravel.ph)
+- https://github.com/gigerbytes/ncov-ph-data
 
 ## Installation
 
