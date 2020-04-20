@@ -1,33 +1,29 @@
 {
-  "name": "coronavirus2019ph",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "jest --detectOpenHandles --env=node"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "apicache": "^1.5.3",
-    "axios": "^0.19.2",
-    "cheerio": "^1.0.0-rc.3",
-    "cheerio-tableparser": "^1.0.1",
-    "cors": "^2.8.5",
-    "csvtojson": "^2.0.10",
-    "dayjs": "^1.8.24",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "google-spreadsheet": "^3.0.10",
-    "morgan": "^1.9.1",
-    "nodemon": "^2.0.2",
-    "request": "^2.88.2"
-  },
-  "devDependencies": {
-    "jest": "^25.1.0",
-    "supertest": "^4.0.2"
-  }
+	"name": "coronavirus2019ph",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"dev": "nodemon index.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"apicache": "^1.5.3",
+		"axios": "^0.19.2",
+		"cheerio": "^1.0.0-rc.3",
+		"cheerio-tableparser": "^1.0.1",
+		"cors": "^2.8.5",
+		"csvtojson": "^2.0.10",
+		"dayjs": "^1.8.24",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"google-spreadsheet": "^3.0.10",
+		"morgan": "^1.9.1",
+		"nodemon": "^2.0.2",
+		"request": "^2.88.2"
+	},
+	"devDependencies": {}
 }

@@ -78,22 +78,52 @@ app.get('/facilities', async (_, res) => {
 
 // Confirmed cases of Filipino nationals outside the Philippines
 app.get('/cases-outside-ph', async (_, res) => {
-	const data = await scrape.getCasesOutsidePh();
-	return res.json(data);
+	try {
+		const data = await scrape.getCasesOutsidePh();
+		return res.json({
+			success: true,
+			source:
+				'https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_the_Philippines',
+			data,
+		});
+	} catch (e) {
+		return res.json({
+			sucess: false,
+			message: e.message,
+		});
+	}
 });
 
 // Metro manila community quarantine checkpoints
 app.get('/mm-checkpoints', async (_, res) => {
-	const data = checkpoint.getAll();
-	return res.json(data);
+	try {
+		const data = checkpoint.getAll();
+		return res.json({
+			success: true,
+			source: 'https://safetravel.ph',
+			data,
+		});
+	} catch (e) {
+		return res.json({
+			sucess: false,
+			message: e.message,
+		});
+	}
 });
 
 app.get('/mm-checkpoints/:id', async (req, res) => {
 	try {
 		const data = checkpoint.getOne(req.params.id);
-		return res.json(data);
+		return res.json({
+			success: true,
+			source: 'https://safetravel.ph',
+			data,
+		});
 	} catch (e) {
-		return res.sendStatus(404);
+		return res.json({
+			success: false,
+			message: 'Not found',
+		});
 	}
 });
 

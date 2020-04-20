@@ -87,9 +87,9 @@ GET /test-results
 
 ```json
 {
-  "confirmed_cases": 636,
-  "cases_tested_negative": 728,
-  "cases_pending_test_results": 595
+	"confirmed_cases": 636,
+	"cases_tested_negative": 728,
+	"cases_pending_test_results": 595
 }
 ```
 
@@ -123,14 +123,14 @@ GET /mm-checkpoints/:id
 
 ```json
 {
-  "id": 13,
-  "district": "NORTHERN POLICE DISTRICT",
-  "city": "VALENZUELA CITY",
-  "location": "NLEX (ENTRANCE)",
-  "type": "EntryExit",
-  "lat": 14.768614,
-  "lng": 120.967557,
-  "description": "Not verified"
+	"id": 13,
+	"district": "NORTHERN POLICE DISTRICT",
+	"city": "VALENZUELA CITY",
+	"location": "NLEX (ENTRANCE)",
+	"type": "EntryExit",
+	"lat": 14.768614,
+	"lng": 120.967557,
+	"description": "Not verified"
 }
 ```
 
@@ -176,10 +176,6 @@ All data are programmatically retrieved, re-formatted and stored in the cache fo
 
 - `npm run dev`
 - Visit your app at [http://localhost:3030](http://localhost:3030).
-
-## Testing
-
-- `npm test`
 
 ## In the Wild
 
