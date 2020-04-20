@@ -22,15 +22,15 @@ GET /total
 
 ```json
 {
-	"cases": 6459,
-	"deaths": 428,
-	"recoveries": 613,
-	"cases_today": 200,
-	"deaths_today": 19,
-	"recoveries_today": 41,
-	"admitted": 5418,
-	"fatality_rate": "6.63%",
-	"recovery_rate": "9.49%"
+  "cases": 6459,
+  "deaths": 428,
+  "recoveries": 613,
+  "cases_today": 200,
+  "deaths_today": 19,
+  "recoveries_today": 41,
+  "admitted": 5418,
+  "fatality_rate": "6.63%",
+  "recovery_rate": "9.49%"
 }
 ```
 
