@@ -2,7 +2,7 @@
 
 # coronavirus-ph (API)
 
-> 🦠A simple and fast (< 200ms) api for tracking the coronavirus (COVID-19, SARS-CoV-2) outbreak in the Philippines.
+> 🦠An API for tracking the coronavirus (COVID-19, SARS-CoV-2) outbreak in the Philippines.
 
 ![GitHub](https://img.shields.io/github/license/sorxrob/coronavirus-ph-api)
 ![GitHub repo size](https://img.shields.io/github/repo-size/sorxrob/coronavirus-ph-api?label=size)
@@ -14,6 +14,32 @@
 
 All requests must be made to the base url: `https://coronavirus-ph-api.herokuapp.com` (e.g: https://coronavirus-ph-api.herokuapp.com/cases). You can try them out in your browser to further inspect responses.
 
+Getting summary of COVID-19 cases in the Philippines (DOH Data Drop):
+
+```http
+GET /doh-data-drop
+```
+
+```json
+[
+  {
+    "case_code": "C404174",
+    "age": 38,
+    "sex": "F",
+    "is_admitted": "",
+    "date_reported": "2020-01-30",
+    "date_died": "",
+    "recovered_on": "2020-02-08",
+    "region_res": "Negros Oriental",
+    "prov_city_res": "Dumaguete City (Capital)",
+    "location": "Dumaguete City (Capital), Negros Oriental",
+    "latitude": 9.3061758,
+    "longitude": 123.3046069
+  },
+  {...}
+]
+```
+
 Getting summary of COVID-19 cases in the Philippines:
 
 ```http
@@ -23,21 +49,24 @@ GET /cases
 ```json
 [
   {
-    "case_no": 1,
-    "date": "2020-01-30",
+    "case_no": "PH00001",
+    "sex": "F",
     "age": 38,
-    "gender": "F",
     "nationality": "Chinese",
+    "residence_in_the_ph": "None",
+    "travel_history": "China",
+    "date_of_announcement_to_public": "2020-01-30",
     "hospital_admitted_to": "San Lazaro Hospital",
-    "travel_history": "Yes",
     "status": "Recovered",
-    "latitude": 14.613754,
-    "longitude": 120.98081499999999,
-    "resident_of": "Wuhan, China"
+    "health_status": "Recovered",
+    "location": "Manila City",
+    "latitude": 14.61348,
+    "longitude": 120.98095,
+    "residence_lat": 14.5987266,
+    "residence_long": 120.9819909
   },
   {...}
 ]
-
 ```
 
 Getting confirmed cases of Filipino
@@ -77,20 +106,6 @@ GET /facilities
   },
   {...}
 ]
-```
-
-Getting Laboratory Status of Patients in the Philippines
-
-```http
-GET /test-results
-```
-
-```json
-{
-	"confirmed_cases": 636,
-	"cases_tested_negative": 728,
-	"cases_pending_test_results": 595
-}
 ```
 
 Getting Metro Manila Community Quarantine Checkpoints:
@@ -134,34 +149,13 @@ GET /mm-checkpoints/:id
 }
 ```
 
-Getting Local government units under partial lockdown:
-
-```http
-GET /lockdowns
-```
-
-```json
-[
-  {
-    "lgu": "Ilocos Norte",
-    "region": "I",
-    "start_date": "2020-03-14",
-    "estimated_population": 593081,
-    "cases": 0,
-    "deaths": 0,
-    "recovered": 0
-  },
-  {...}
-]
-```
-
 ## Data
 
 All data are programmatically retrieved, re-formatted and stored in the cache for one hour.
 
-- [Cases from r/Coronavirus_PH spreadsheet](https://www.reddit.com/r/Coronavirus_PH/comments/fehzke/ph_covid19_case_database_is_now_live/)
-- [Wikipedia](https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_the_Philippines)
-- [Metro Manila community quarantine checkpoints](https://safetravel.ph)
+- http://tiny.cc/n8nsmz
+- https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_the_Philippines
+- https://safetravel.ph
 - https://github.com/gigerbytes/ncov-ph-data
 
 ## Installation
@@ -176,23 +170,6 @@ All data are programmatically retrieved, re-formatted and stored in the cache fo
 
 - `npm run dev`
 - Visit your app at [http://localhost:3030](http://localhost:3030).
-
-## In the Wild
-
-A list of public websites that are using this API
-
-- https://zntp.github.io/covidcase
-- https://covid19ph-update.netlify.com
-- https://covid19.nextvation.com
-- https://www.facebook.com/dubrechi/posts/3417813594901888
-- https://techron.info
-- https://alexisrequerman.github.io/covid19ph
-- http://www.armilwebdev.com/coronavirus
-- https://ncov.gundamserver.com
-
-## Other apps
-
-I also launched a [coronavirus tracking website](https://the2019ncov.com) and open-sourced it!
 
 ## License & copyright
 
