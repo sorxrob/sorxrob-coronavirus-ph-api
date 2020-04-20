@@ -3,7 +3,6 @@ const cheerioTableparser = require('cheerio-tableparser');
 const axios = require('axios');
 const https = require('https');
 const { GoogleSpreadsheet } = require('google-spreadsheet');
-const { toIS08601, stringToNumber, toTBA, getStatus } = require('../utils');
 const request = require('request');
 const csv = require('csvtojson');
 const dayjs = require('dayjs');
@@ -16,18 +15,6 @@ const doc = new GoogleSpreadsheet(sheetId);
 doc.useApiKey(process.env.DOC_API_KEY);
 
 class Scraper {
-	async getHTML(
-		url = 'https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_the_Philippines'
-	) {
-		try {
-			const res = await axios(url);
-			return cheerio.load(res.data);
-		} catch (e) {
-			console.log(e);
-			throw new Error("Can't fetch url.");
-		}
-	}
-
 	getFacilities() {
 		const data = [];
 		return new Promise((resolve, reject) => {
@@ -60,99 +47,6 @@ class Scraper {
 					}
 				);
 		});
-	}
-
-	async getCases() {
-		try {
-			const casesCSV = await this.getCasesCSV();
-			const cases = casesCSV.map((i, idx) => {
-				return {
-					case_no: idx + 1,
-					date:
-						toTBA(i.date_lab_confirmed) !== 'TBA'
-							? i.date_lab_confirmed.split(' ')[0]
-							: 'TBA',
-					age: +i.age,
-					gender: i.sex.charAt(0),
-					nationality: redditCases[idx]
-						? toTBA(redditCases[idx]['Nationality'])
-						: 'TBA',
-					hospital_admitted_to: toTBA(i.facility),
-					travel_history: redditCases[idx]
-						? toTBA(redditCases[idx]['Travel History'])
-						: 'TBA',
-					status: redditCases[idx]
-						? getStatus(redditCases[idx]['Status'])
-						: 'Admitted',
-					latitude: toTBA(i.latitude) !== 'TBA' ? +i.latitude : 'TBA',
-					longitude: toTBA(i.longitude) !== 'TBA' ? +i.longitude : 'TBA',
-					resident_of: redditCases[idx]
-						? toTBA(redditCases[idx]['Resident of'])
-						: 'TBA',
-				};
-			});
-
-			return cases;
-		} catch (e) {
-			throw new Error(e);
-		}
-	}
-
-	async getCases2() {
-		const cases = await this.getRedditCases();
-		const result = [];
-
-		for (let x = 0; x < cases.length; x++) {
-			const c = cases[x];
-
-			result.push({
-				case_no: x + 1,
-				case_code: c['CaseCode'],
-				date: dayjs(c['DateRepConf'], 'M-D-YYYY').format('YYYY-MM-DD'),
-				age: +c['Age'],
-				gender: c['Sex'] ? c['Sex'].charAt(0) : '',
-				nationality: 'tba',
-				hospital_admitted_to: 'tba',
-				status: 'tba',
-				resident_of: c['Location'],
-				latitude: c['Latitude'],
-				longitude: c['Longitude'],
-			});
-		}
-
-		return result;
-	}
-
-	getCasesCSV() {
-		const data = [];
-		return new Promise((resolve, reject) => {
-			csv()
-				.fromStream(
-					request.get(
-						'https://raw.githubusercontent.com/gigerbytes/ncov-ph-data/master/data/cases_ph.csv'
-					)
-				)
-				.subscribe(
-					(json) => {
-						data.push(json);
-					},
-					function (e) {
-						reject(e);
-					},
-					function () {
-						resolve(data.reverse());
-					}
-				);
-		});
-	}
-
-	async getCasesCount() {
-		const $ = await this.getHTML();
-
-		return +$('.infobox tbody tr th:contains("Confirmed cases")')
-			.next()
-			.text()
-			.replace(/\,/g, '');
 	}
 
 	async getSheetByTitle(title) {
@@ -206,8 +100,45 @@ class Scraper {
 		return data;
 	}
 
+	async getCases() {
+		const rows = await this.getSheetByTitle('Cases');
+
+		const data = [];
+
+		for (let x = 0; x < rows.length; x++) {
+			const row = rows[x];
+
+			const formattedRow = {
+				case_no: row['Case No.'],
+				sex: row['Sex'] ? row['Sex'].charAt(0) : '',
+				age: row['Age'] ? +row['Age'] : '',
+				nationality: row['Nationality'],
+				residence_in_the_ph: row['Residence in the Philippines'],
+				travel_history: row['Travel History'],
+				date_of_announcement_to_public: dayjs(
+					row['Date of Announcement to the Public']
+				).format('YYYY-MM-DD'),
+				hospital_admitted_to: row['Admission / Consultation'],
+				status: row['Status'],
+				health_status: row['Health Status'],
+				location: row['Location'],
+				latitude: row['Latitude'] ? +row['Latitude'] : '',
+				longitude: row['Longitude'] ? +row['Longitude'] : '',
+				residence_lat: row['Residence Lat'] ? +row['Residence Lat'] : '',
+				residence_long: row['Residence Long'] ? +row['Residence Long'] : '',
+			};
+
+			data.push(formattedRow);
+		}
+
+		return data;
+	}
+
 	async getCasesOutsidePh() {
-		const $ = await this.getHTML();
+		const res = await axios(
+			'https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_the_Philippines'
+		);
+		const $ = cheerio.load(res.data);
 		cheerioTableparser($);
 		const rawData = $('.wikitable').eq(1).parsetable(true, true, true);
 
@@ -232,8 +163,6 @@ class Scraper {
 			formattedData.push(obj);
 		});
 
-		// return formattedData
-
 		return formattedData;
 	}
 
@@ -257,40 +186,6 @@ class Scraper {
 					td.eq(0).text().trim().split(' ').join('_').toLowerCase()
 				] = +td.eq(1).text().trim().split('(')[0].replace(/\,/g, '');
 			});
-
-		return formattedData;
-	}
-
-	async getLockdowns() {
-		const url =
-			'https://en.wikipedia.org/wiki/Template:2019%E2%80%9320_coronavirus_pandemic_data/Philippines_coronavirus_quarantines';
-		const $ = await this.getHTML(url);
-		cheerioTableparser($);
-		const rawData = $('.wikitable').first().parsetable(true, true, true);
-
-		const formattedData = [];
-
-		rawData[0].forEach((item, idx) => {
-			const skipIdx = [
-				0,
-				1,
-				2,
-				rawData[0].length - 1,
-				rawData[0].length - 2,
-				rawData[0].length - 3,
-			];
-			if (skipIdx.includes(idx)) return;
-
-			formattedData.push({
-				lgu: item.split('[')[0].trim(),
-				region: rawData[1][idx],
-				start_date: toIS08601(rawData[2][idx]),
-				estimated_population: stringToNumber(rawData[3][idx]),
-				cases: +rawData[4][idx] || 0,
-				deaths: +rawData[5][idx] || 0,
-				recovered: +rawData[6][idx || 0],
-			});
-		});
 
 		return formattedData;
 	}

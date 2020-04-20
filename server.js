@@ -24,11 +24,16 @@ app.get('/README.md', (_, res) => {
 	res.sendFile(path.join(__dirname + '/README.md'));
 });
 
-// Summary of COVID-19 cases in the Philippines
 app.get('/cases', async (req, res) => {
 	try {
 		const data = await scrape.getCases();
-		return res.json(data);
+		return res.json({
+			success: true,
+			source: 'https://tiny.cc/n8nsmz',
+			info:
+				'DOH updated their covid tracker. Last case before it was updated was PH03246.',
+			data,
+		});
 	} catch (e) {
 		return res.json({
 			sucess: false,
@@ -54,26 +59,26 @@ app.get('/doh-data-drop', async (req, res) => {
 	}
 });
 
-// Laboratory Status of Patients in the Philippines
 app.get('/facilities', async (_, res) => {
-	const data = await scrape.getFacilities();
-	return res.json(data);
+	try {
+		const data = await scrape.getFacilities();
+		return res.json({
+			success: true,
+			source: 'https://github.com/gigerbytes/ncov-ph-data',
+			info: 'DOH updated their covid tracker. Data incomplete.',
+			data,
+		});
+	} catch (e) {
+		return res.json({
+			sucess: false,
+			message: e.message,
+		});
+	}
 });
 
 // Confirmed cases of Filipino nationals outside the Philippines
 app.get('/cases-outside-ph', async (_, res) => {
 	const data = await scrape.getCasesOutsidePh();
-	return res.json(data);
-});
-
-// Laboratory Status of Patients in the Philippines
-app.get('/test-results', async (_, res) => {
-	const data = await scrape.getLaboratoryStatusOfPatients();
-	return res.json(data);
-});
-
-app.get('/patients-under-investigation', async (_, res) => {
-	const data = await scrape.getPatientsUnderInvestigation();
 	return res.json(data);
 });
 
@@ -90,12 +95,6 @@ app.get('/mm-checkpoints/:id', async (req, res) => {
 	} catch (e) {
 		return res.sendStatus(404);
 	}
-});
-
-// Local government units under partial lockdown
-app.get('/lockdowns', async (_, res) => {
-	const data = await scrape.getLockdowns();
-	return res.json(data);
 });
 
 module.exports = app;
