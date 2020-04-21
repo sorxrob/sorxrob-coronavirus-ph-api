@@ -76,9 +76,11 @@ class Scraper {
 
 		for (let x = 0; x < reversed.length; x++) {
 			const row = reversed[x];
+			const dateRow = dayjs(row['Date']).format('YYYY-MM-DD');
 
 			if (row['Cases']) {
 				result = {
+					last_update: dateRow,
 					cases: +row['Cases'],
 					deaths: +row['Deaths'],
 					recoveries: +row['Recoveries'],
