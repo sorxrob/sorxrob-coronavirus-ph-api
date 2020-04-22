@@ -22,15 +22,15 @@ GET /total
 
 ```json
 {
-  "cases": 6459,
-  "deaths": 428,
-  "recoveries": 613,
-  "cases_today": 200,
-  "deaths_today": 19,
-  "recoveries_today": 41,
-  "admitted": 5418,
-  "fatality_rate": "6.63%",
-  "recovery_rate": "9.49%"
+	"cases": 6459,
+	"deaths": 428,
+	"recoveries": 613,
+	"cases_today": 200,
+	"deaths_today": 19,
+	"recoveries_today": 41,
+	"admitted": 5418,
+	"fatality_rate": "6.63%",
+	"recovery_rate": "9.49%"
 }
 ```
 
@@ -39,6 +39,11 @@ Getting summary of COVID-19 cases in the Philippines (DOH Data Drop):
 ```http
 GET /doh-data-drop
 ```
+
+| Key            | Description                                                              |
+| :------------- | :----------------------------------------------------------------------- |
+| `page`         | Page number. This activates the pagination. Returns all cases without it |
+| `itemsPerPage` | Number of cases per page.                                                |
 
 ```json
 [
@@ -65,6 +70,11 @@ Getting summary of COVID-19 cases in the Philippines:
 ```http
 GET /cases
 ```
+
+| Key            | Description                                                              |
+| :------------- | :----------------------------------------------------------------------- |
+| `page`         | Page number. This activates the pagination. Returns all cases without it |
+| `itemsPerPage` | Number of cases per page.                                                |
 
 ```json
 [

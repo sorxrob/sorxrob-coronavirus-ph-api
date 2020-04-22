@@ -5,6 +5,7 @@ const apicache = require('apicache');
 const path = require('path');
 const Scraper = require('./services/Scraper');
 const Checkpoint = require('./services/Checkpoint');
+const paginate = require('paginate-array');
 
 const app = express();
 const cache = apicache.middleware;
@@ -41,13 +42,32 @@ app.get('/total', async (req, res) => {
 });
 
 app.get('/cases', async (req, res) => {
+	const { page, itemsPerPage } = req.query;
+
 	try {
 		const data = await scrape.getCases();
+
+		if (page) {
+			if (isNaN(page) || isNaN(itemsPerPage)) {
+				const paginateCollection = paginate(data, 1, 100);
+				return res.json({
+					success: true,
+					source: 'https://tiny.cc/n8nsmz',
+					...paginateCollection,
+				});
+			}
+
+			const paginateCollection = paginate(data, page, itemsPerPage);
+			return res.json({
+				success: true,
+				source: 'https://tiny.cc/n8nsmz',
+				...paginateCollection,
+			});
+		}
+
 		return res.json({
 			success: true,
 			source: 'https://tiny.cc/n8nsmz',
-			info:
-				'DOH updated their covid tracker. Last case before it was updated was PH03246.',
 			data,
 		});
 	} catch (e) {
@@ -59,8 +79,29 @@ app.get('/cases', async (req, res) => {
 });
 
 app.get('/doh-data-drop', async (req, res) => {
+	const { page, itemsPerPage } = req.query;
+
 	try {
 		const data = await scrape.getDOHDataDrop();
+
+		if (page) {
+			if (isNaN(page) || isNaN(itemsPerPage)) {
+				const paginateCollection = paginate(data, 1, 100);
+				return res.json({
+					success: true,
+					source: 'https://tiny.cc/n8nsmz',
+					...paginateCollection,
+				});
+			}
+
+			const paginateCollection = paginate(data, page, itemsPerPage);
+			return res.json({
+				success: true,
+				source: 'https://tiny.cc/n8nsmz',
+				...paginateCollection,
+			});
+		}
+
 		return res.json({
 			success: true,
 			source: 'https://tiny.cc/n8nsmz',

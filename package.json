@@ -23,6 +23,7 @@
 		"google-spreadsheet": "^3.0.10",
 		"morgan": "^1.9.1",
 		"nodemon": "^2.0.2",
+		"paginate-array": "^2.1.0",
 		"request": "^2.88.2"
 	},
 	"devDependencies": {}
