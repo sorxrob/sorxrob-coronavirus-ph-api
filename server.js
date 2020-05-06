@@ -56,6 +56,23 @@ app.get('/cases', async (req, res) => {
   }
 });
 
+app.get('/historical', async (req, res) => {
+    try {
+        const data = await scrape.getHistorical(req.query);
+return res.json({
+    success: true,
+    source: 'https://tiny.cc/n8nsmz',
+    data,
+});
+} catch (e) {
+    console.log(e);
+    return res.json({
+        sucess: false,
+        message: e.message,
+    });
+}
+});
+
 app.get('/doh-data-drop', async (req, res) => {
   try {
     const data = await scrape.getDOHDataDrop(req.query);
