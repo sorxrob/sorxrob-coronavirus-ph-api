@@ -1,4 +1,4 @@
-🚨 DEPRECATED and unmaintained 🚨
+🚨 DISCONTINUED and unmaintained 🚨
 
 In unforeseen circumstances, the number of cases in the country has grown and [the main source](http://tiny.cc/n8nsmz) has not been updated. The APIs will stop working on August 7, 2020.
 
