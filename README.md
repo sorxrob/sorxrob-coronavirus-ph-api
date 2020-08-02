@@ -1,4 +1,6 @@
-<a href="https://www.buymeacoffee.com/7eDr4fv" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-orange.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;" ></a>
+🚨 DEPRECATED and unmaintained 🚨
+
+In unforeseen circumstances, the number of cases in the country has grown and [the main source](http://tiny.cc/n8nsmz) has not been updated. The APIs will stop working on August 7, 2020.
 
 # coronavirus-ph (API)
 
